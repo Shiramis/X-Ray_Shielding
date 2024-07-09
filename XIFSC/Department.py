@@ -443,13 +443,14 @@ class ddepartment():
                          str(self.xlmat["thic "+str(a) + str(5) + p]),str(self.xlmat["thic "+str(a) + str(6) + p])]
             self.d["room_data {0}".format(str(b))]=pd.DataFrame(data=self.wa,
                                                                 index=["Lead (mm)","Concrete (mm)","Gypsum Wallboard (mm)","Steel (mm)","Plate Glass (mm)","Wood (mm)"])
-            print(self.d["room_data "+str(b)])
-        with pd.ExcelWriter(r'Results.xml',engine='xlsxwriter',
-                    engine_kwargs={'options': {'strings_to_numbers': True}}) as writer:
-            for b in range(1, t + 1):
-                self.d["room_data "+str(b)].to_excel(writer,sheet_name=self.d["name_room " + str(b)].get())
+          user_home = os.path.expanduser('~')  # Get user's home directory
+            excel_file_path = os.path.join(user_home, 'Department.xlsx')
 
-        os.system(r'Results.xml')
+        with pd.ExcelWriter(excel_file_path, engine='xlsxwriter',
+                            engine_kwargs={'options': {'strings_to_numbers': True}}) as writer:
+            for b in range(1, t + 1):
+                self.d["room_data " + str(b)].to_excel(writer, sheet_name=self.d["name_room " + str(b)].get())
+        os.system(excel_file_path)
 
     def closedeproom(self,t):
         self.d["newroomf " + str(t)].destroy()
