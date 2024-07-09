@@ -165,12 +165,14 @@ class droom():
         self.d["room_data {0}".format(str(t))] = pd.DataFrame(data=self.wa,
                                                               index=["Lead", "Concrete", "Gypsum Wallboard",
                                                                      "Steel", "Plate Glass", "Wood"])
-        print(self.d["room_data " + str(t)])
-        with pd.ExcelWriter(r'C:\Users\ssavv\PycharmProjects\owl\save_data\Department.xlsx',engine='xlsxwriter',
-                        engine_kwargs={'options': {'strings_to_numbers': True}}) as writer:
-            self.d["room_data " + str(t)].to_excel(writer, sheet_name="X-Ray Room")
+        user_home = os.path.expanduser('~')  # Get user's home directory
+        excel_file_path = os.path.join(user_home, 'Department.xlsx')
 
-        os.system(r'C:\Users\ssavv\PycharmProjects\owl\save_data\Department.xlsx')
+        with pd.ExcelWriter(excel_file_path, engine='xlsxwriter',
+                            engine_kwargs={'options': {'strings_to_numbers': True}}) as writer:
+            for b in range(1, t + 1):
+                self.d["room_data " + str(b)].to_excel(writer, sheet_name="X-Ray Room")
+        os.system(excel_file_path)
 
     def closeroom(self,t):
         self.roomframe.destroy()
