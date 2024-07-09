@@ -170,8 +170,7 @@ class droom():
 
         with pd.ExcelWriter(excel_file_path, engine='xlsxwriter',
                             engine_kwargs={'options': {'strings_to_numbers': True}}) as writer:
-            for b in range(1, t + 1):
-                self.d["room_data " + str(b)].to_excel(writer, sheet_name="X-Ray Room")
+            self.d["room_data " + str(t)].to_excel(writer, sheet_name="X-Ray Room")
         os.system(excel_file_path)
 
     def closeroom(self,t):
